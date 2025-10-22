@@ -2,8 +2,6 @@
 #include <math.h>
 #include "functions.h"
 
-
-
 int main (void) {
     int m, n;
     printf("Digite o numeros de linhas da matriz: ");
