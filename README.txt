@@ -40,4 +40,4 @@ Alunos: Nicolas Oliveira Veiga e isabela Zimmermann Melleis
 
 7. copiarConjunto(int destino[N], int origem[N]): Copia um conjunto inteiro   🟡 Médio.
 
-6. ordenarConjunto(int conjunto[N]): Ordena os valores (ex: bubble sort) 🟡 Médio.
+8. ordenarConjunto(int conjunto[N]): Ordena os valores (ex: bubble sort) 🟡 Médio.
