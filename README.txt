@@ -32,4 +32,4 @@ Alunos: Nicolas Oliveira Veiga e isabela Zimmermann Melleis
 
 3. pausa(): Faz um "..." parecendo que está carregando   🟢 Fácil. (✓)
 
-4. ordenarConjunto(int conjunto[N]): Ordena os valores (ex: bubble sort) 🟡 Médio. 
+4. ordenarConjunto(int conjunto[N]): Ordena os valores (ex: bubble sort) 🟡 Médio. (✓)
