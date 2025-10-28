@@ -2,135 +2,151 @@
 #include "functions.h"
 #include <stdlib.h>
 
+#define M 10
+#define N 10
+
+
 // funções principais
 
-void inicializa_matriz(int m, int n, int matriz[m][n]) {
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
+void inicializa_matriz(int matriz[M][N]) {
+    for (int i = 0; i < M; i++) {
+        for (int j = 0; j < N; j++) {
             matriz[i][j] = 0;
         }
     }
 }
 
 int verifica_indice(int indice, int contador_conjuntos) {
-    if(indice < contador_conjuntos && indice >= 0) {
-        return 1;
-    } else {
-        return 0;
-    }
+    return (indice >= 0 && indice < contador_conjuntos);
 }
 
-int criar_conjunto_vazio(int contador_conjuntos, int m) {
-    if(contador_conjuntos < m) {
+
+int criar_conjunto_vazio(int contador_conjuntos) {
+    if (contador_conjuntos < M) {
+        printf("Conjunto %d criado com sucesso!\n\n", contador_conjuntos);
         contador_conjuntos++;
     } else {
-        printf("O tamanho maximo da matriz foi atingido, nao e possivel criar mais conjuntos.\nCaso queira criar um novo conjunto, e necessario remover algum outro para abrir espaco.\n\n");
+        printf("O limite maximo de conjuntos (%d) foi atingido.\nRemova um conjunto para criar outro.\n\n", M);
     }
     return contador_conjuntos;
 }
 
-void inserir_valores(int m , int n, int matriz[m][n], int indice, int contador_conjuntos) {
-    int i, j, valor;
-    for(j = 0; j < n; j++) {
-        if(matriz[indice][j] == 0) {
-            break;
+
+void inserir_valores(int matriz[M][N], int indice) {
+    int valor, j;
+
+    // Encontra posição livre
+    for (j = 0; j < N; j++) {
+        if (matriz[indice][j] == 0) break;
+    }
+
+    if (j == N) {
+        printf("O conjunto atingiu o limite de %d elementos.\n\n", N);
+        return;
+    }
+
+    printf("Digite valores para o conjunto (digite 0 para parar):\n");
+    for (int i = j; i < N; i++) {
+        scanf("%d", &valor);
+        if (valor == 0) break;
+        if (busca_valor(N, matriz[indice], valor)) {
+            printf("Valor '%d' ja existe! Digite outro:\n", valor);
+            i--;
+            continue;
+        }
+        matriz[indice][i] = valor;
+    }
+
+    // Zera posições não usadas
+    for (int k = j; k < N; k++) {
+        if (matriz[indice][k] == 0) continue;
+    }
+
+    limpa_tela();
+    printf("Valores inseridos com sucesso!\n\n");
+}
+
+int remover_conjunto(int matriz[M][N], int indice, int contador_conjuntos) {
+    if (contador_conjuntos == 0) {
+        printf("Nao ha conjuntos para remover.\n\n");
+        return contador_conjuntos;
+    }
+
+    if (!verifica_indice(indice, contador_conjuntos)) {
+        printf("Indice invalido!\n\n");
+        return contador_conjuntos;
+    }
+
+    // Move linhas abaixo do índice para cima
+    for (int i = indice; i < contador_conjuntos - 1; i++) {
+        for (int j = 0; j < N; j++) {
+            matriz[i][j] = matriz[i + 1][j];
         }
     }
-    if(j == n) {
-        printf("O tamanho maximo do conjunto foi atingido.\n\n");
-    } else {
-        printf("Digite ate %i valores para o conjunto ou digite 0 para parar quando desejar:\n", n-j);
-        for(int i = j; i < n; i++) {
-            scanf("%d", &valor);
-            if(valor == 0) {
-                limpa_tela();
-                printf("Valores inseridos com sucesso!\n\n");
+
+    // Zera a última linha
+    for (int j = 0; j < N; j++) {
+        matriz[contador_conjuntos - 1][j] = 0;
+    }
+
+    printf("Conjunto %d removido com sucesso!\n\n", indice);
+    return contador_conjuntos - 1;
+}
+
+void uniao_conjuntos(int matriz[M][N], int indice1, int indice2, int contador_conjuntos) {
+    int uniao[N * 2], k = 0, valor;
+    int novo_indice = contador_conjuntos;
+
+    for (int i = 0; i < N; i++) {
+        if (matriz[indice1][i] == 0) break;
+        uniao[k++] = matriz[indice1][i];
+    }
+
+    for (int j = 0; j < N; j++) {
+        valor = matriz[indice2][j];
+        if (valor == 0) break;
+        if (!busca_valor(N * 2, uniao, valor)) {
+            if (k >= N) {
+                printf("A uniao ultrapassa o limite de %d elementos.\n\n", N);
                 break;
             }
-            if (busca_valor(n, matriz[indice], valor)) {
-                printf("Valor '%i' ja existe no conjunto! Digite outro valor:\n", valor);
-                i--;
-                continue;
-            }
-            matriz[indice][i] = valor;
+            uniao[k++] = valor;
         }
-        limpa_tela();
-        printf("Valores inseridos com sucesso!\n\n");
     }
+
+    // Copia para a nova linha
+    for (int i = 0; i < N; i++) {
+        matriz[novo_indice][i] = (i < k) ? uniao[i] : 0;
+    }
+
+    printf("Conjunto uniao criado com indice %d.\n\n", novo_indice);
 }
 
-void remover_conjunto(int m, int n, int matriz[m][n], int indice) {
-    for (int i = 0; i < n; i++) {
-        matriz[indice][i] = 0;
+void interseccao_conjuntos(int matriz[M][N], int indice1, int indice2, int contador_conjuntos) {
+    int interseccao[N], k = 0, valor;
+    int novo_indice = contador_conjuntos;
+
+    for (int i = 0; i < N; i++) {
+        valor = matriz[indice1][i];
+        if (valor == 0) break;
+        if (busca_valor(N, matriz[indice2], valor)) {
+            interseccao[k++] = valor;
+        }
     }
+
+    for (int i = 0; i < N; i++) {
+        matriz[novo_indice][i] = (i < k) ? interseccao[i] : 0;
+    }
+
+    printf("Conjunto interseccao criado com indice %d.\n\n", novo_indice);
 }
 
-void uniao_conjuntos(int m, int n, int matriz[m][n], int indice, int indice2, int contador_conjuntos) {
-    int i, j, k = 0, valor, uniao[n+n], novo_indice;
-    for(i = 0; i < n; i++) {
-        if (matriz[indice][i] == 0) {
-            break;
-        }
-        uniao[k++] = matriz[indice][i];
-    }
-    for(j = 0; j < n; j++) {
-        valor = matriz[indice2][j];
-        if(valor == 0) {
-            break;
-        }
-        if(!busca_valor(n+n, uniao, valor)) {
-            if (k >= n) {
-                printf("Nao e possivel criar o conjunto uniao pois a uniao ultrapassa o tamanho limite de conjuntos.\n", n);
-            }
-            uniao[k] = valor;
-            k++;
-        }
-    }
-    novo_indice = contador_conjuntos;
-    for (int i = 0; i < n; i++) {
-        if (i < k) {
-            matriz[novo_indice][i] = uniao[i];
-        }
-        else {
-            matriz[novo_indice][i] = 0;
-        }
-    }
-}
-
-void interseccao_conjuntos(int m, int n, int matriz[m][n], int indice, int indice2, int contador_conjuntos) {
-    int i, j = 0, interseccao[n], novo_indice;
-    for(i = 0; i < n; i++) {
-        if(busca_valor(n, matriz[indice], matriz[indice2][i])) {
-            interseccao[j] = matriz[indice2][i];
-            j++;
-        }
-    }
-    for (int i = j; i < n; i++) {
-        interseccao[i] = 0;
-    }
-    novo_indice = contador_conjuntos;
-    for (int i = 0; i < n; i++) {
-        if (i < j) {
-            matriz[novo_indice][i] = interseccao[i];
-        }
-        else {
-            matriz[novo_indice][i] = 0;
-        }
-    }
-}
-
-void mostrar_conjunto(int m , int n, int matriz[m][n], int indice, int contador_conjuntos) {
-    int i;
-    printf("Conjunto de indice %i:\n\n", indice);
-    printf("{");
-    for(i = 0; i < n; i++) {
-        if (matriz[indice][i] == 0) {
-            break;
-        }
+void mostrar_conjunto(int matriz[M][N], int indice) {
+    printf("Conjunto %d = {", indice);
+    for (int i = 0; i < N; i++) {
+        if (matriz[indice][i] == 0) break;
         printf("%d", matriz[indice][i]);
-        if (i < n-1 && matriz[indice][i+1] != 0) {
-            printf(", ");
-        }
+        if (i < N - 1 && matriz[indice][i + 1] != 0) printf(", ");
     }
     printf("}\n\n");
 }
@@ -154,27 +170,29 @@ void mostrar_todos_conjuntos(int m, int n, int matriz[m][n], int contador_conjun
     printf("\n");
 }
 
-int busca_valor(int n, int conjunto[], int valor) {
-    for (int i = 0; i < n; i++) {
-        if (conjunto[i] == valor) {
-            return 1;
-        }
-        if (conjunto[i] == 0) {
-            break;
-        }
+int busca_valor(int conjunto[N], int valor) {
+    for (int i = 0; i < N; i++) {
+        if (conjunto[i] == 0) break;
+        if (conjunto[i] == valor) return 1;
     }
     return 0;
 }
 
-void busca_por_valor(int m, int n, int matriz[m][n], int valor) {
-    int conjunto = 0;
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
+
+void busca_por_valor(int matriz[M][N], int valor, int contador_conjuntos) {
+    int encontrado = 0;
+    for (int i = 0; i < contador_conjuntos; i++) {
+        for (int j = 0; j < N; j++) {
             if (matriz[i][j] == valor) {
-                conjunto = j;
-                printf("O conjunto %i possui o valor %i", conjunto, valor);
+                printf("Valor %d encontrado no conjunto %d.\n", valor, i);
+                encontrado = 1;
+                break;
             }
+            if (matriz[i][j] == 0) break;
         }
+    }
+    if (!encontrado) {
+        printf("Valor %d nao encontrado em nenhum conjunto.\n\n", valor);
     }
 }
 
@@ -204,4 +222,28 @@ void pausa() {
         sleep_ms(500);
     }
     printf("\n");
+}
+
+void ordenarConjunto(int conjunto[N]) {
+    int i, j, aux;
+    int tamanho = 0;
+
+    // Descobre quantos elementos válidos há (para ignorar zeros)
+    for (i = 0; i < N; i++) {
+        if (conjunto[i] == 0) break;
+        tamanho++;
+    }
+
+    // Ordena apenas os elementos válidos (Bubble Sort)
+    for (i = 0; i < tamanho - 1; i++) {
+        for (j = 0; j < tamanho - i - 1; j++) {
+            if (conjunto[j] > conjunto[j + 1]) {
+                aux = conjunto[j];
+                conjunto[j] = conjunto[j + 1];
+                conjunto[j + 1] = aux;
+            }
+        }
+    }
+
+    printf("Conjunto ordenado com sucesso!\n\n");
 }
