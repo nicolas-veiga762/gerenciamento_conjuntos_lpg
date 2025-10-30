@@ -83,6 +83,7 @@ void remover_conjunto(int m, int n, int matriz[m][n], int *contador_conjuntos, i
     // Atualiza o contador
     (*contador_conjuntos)--;
 
+    pausa();
     limpa_tela();
     printf("Conjunto %d removido com sucesso!\n\n", indice);
 }
