@@ -99,7 +99,7 @@ void uniao_conjuntos(int m, int n, int matriz[m][n], int indice, int indice2, in
                 k++;
             } else {
                 pausa();
-                printf("Nao e possivel criar o conjunto uniao pois a uniao ultrapassa o tamanho limite de conjuntos.\n");
+                printf("Nao e possivel criar o conjunto uniao pois a uniao ultrapassa o tamanho limite de conjuntos.\n\n");
                 break;
             }
             
@@ -114,7 +114,6 @@ void uniao_conjuntos(int m, int n, int matriz[m][n], int indice, int indice2, in
             matriz[novo_indice][i] = 0;
         }
     }
-    pausa();
 }
 
 // Cria um conjunto resultante da intersecção de outros dois
@@ -209,7 +208,8 @@ void busca_por_valor(int m, int n, int matriz[m][n], int valor) {
         for (i = 0; i < m; i++) {
             for (j = 0; j < n; j++) {
                 if (matriz[i][j] == valor) {
-                    printf("O conjunto %i possui o elemento %i\n\n.", i, valor);
+                    printf("Conjunto(s) com o valor:\n\n");
+                    printf("O conjunto %i possui o elemento %i.\n\n", i, valor);
                     encontrou = 1;
                     break;
                 }
