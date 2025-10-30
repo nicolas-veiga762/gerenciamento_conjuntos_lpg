@@ -200,10 +200,18 @@ void limpa_tela() {
 
 void pausa() {
     printf("Carregando");
-    for (int i = 0; i < 3; i++) {
-        printf(".");
+    fflush(stdout);
+
+    for (int j = 0; j < 9; j++) { 
+        int pontos = (j % 3) + 1; 
+
+        printf("\rCarregando"); 
+        for (int i = 0; i < pontos; i++) {
+            printf(".");
+        }
         fflush(stdout);
         sleep_ms(500);
     }
-    printf("\n");
+    
+    limpa_tela();
 }
