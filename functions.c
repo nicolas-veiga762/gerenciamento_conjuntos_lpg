@@ -2,6 +2,7 @@
 #include "functions.h"
 #include <stdlib.h>
 
+// Inicializa a matriz com zeros
 void inicializa_matriz(int m, int n, int matriz[m][n]) {
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {
@@ -10,6 +11,7 @@ void inicializa_matriz(int m, int n, int matriz[m][n]) {
     }
 }
 
+// Verifica se o índice já extrapolou o limite do tamanho da matriz
 int verifica_indice(int indice, int contador_conjuntos) {
     if(indice < contador_conjuntos && indice >= 0) {
         return 1;
@@ -18,9 +20,9 @@ int verifica_indice(int indice, int contador_conjuntos) {
     }
 }
 
+// Cria um conjunto vazio para possibilitar a inserção de dados
 int criar_conjunto_vazio(int contador_conjuntos, int m) {
     if(contador_conjuntos < m) {
-        pausa();
         contador_conjuntos++;
     } else {
         printf("O tamanho maximo da matriz foi atingido, nao e possivel criar mais conjuntos.\nCaso queira criar um novo conjunto, e necessario remover algum outro para abrir espaco.\n\n");
@@ -28,6 +30,7 @@ int criar_conjunto_vazio(int contador_conjuntos, int m) {
     return contador_conjuntos;
 }
 
+// Função para inserção de valores em um conjunto
 void inserir_valores(int m , int n, int matriz[m][n], int indice, int contador_conjuntos) {
     int i, j, valor;
     for(j = 0; j < n; j++) {
@@ -60,25 +63,23 @@ void inserir_valores(int m , int n, int matriz[m][n], int indice, int contador_c
     contador_conjuntos++;
 }
 
+// Remove um conjunto e realoca os outros existentes
 void remover_conjunto(int m, int n, int matriz[m][n], int contador_conjuntos, int indice) {
     int i, j;
-    // Remove o conjunto deslocando todos os de baixo para cima
     for (i = indice; i < contador_conjuntos; i++) {
         for (int j = 0; j < n; j++) {
             matriz[i][j] = matriz[i + 1][j];
         }
     }
-
-    // Zera o último conjunto (que ficou duplicado após o deslocamento)
     for (j = 0; j < n; j++) {
         matriz[contador_conjuntos][j] = 0;
     }
-
     pausa();
     limpa_tela();
     printf("Conjunto %d removido com sucesso!\n\n", indice);
 }
 
+// Cria um conjunto resultante da união de outros dois
 void uniao_conjuntos(int m, int n, int matriz[m][n], int indice, int indice2, int contador_conjuntos) {
     int i, j, k = 0, valor, uniao[n+n], novo_indice;
     for(i = 0; i < n; i++) {
@@ -116,6 +117,7 @@ void uniao_conjuntos(int m, int n, int matriz[m][n], int indice, int indice2, in
     pausa();
 }
 
+// Cria um conjunto resultante da intersecção de outros dois
 void interseccao_conjuntos(int m, int n, int matriz[m][n], int indice, int indice2, int contador_conjuntos) {
     if (contador_conjuntos >= m) {
         pausa();
@@ -145,6 +147,7 @@ void interseccao_conjuntos(int m, int n, int matriz[m][n], int indice, int indic
     pausa();
 }
 
+// Mostra apenas um conjunto escolhido pelo usuário
 void mostrar_conjunto(int m , int n, int matriz[m][n], int indice) {
     pausa();
     int i;
@@ -162,6 +165,7 @@ void mostrar_conjunto(int m , int n, int matriz[m][n], int indice) {
     printf("}\n\n");
 }
 
+// Mostra todos os conjuntos criados
 void mostrar_todos_conjuntos(int m, int n, int matriz[m][n], int contador_conjuntos) {
     pausa();
     int i, j;
@@ -182,6 +186,7 @@ void mostrar_todos_conjuntos(int m, int n, int matriz[m][n], int contador_conjun
     printf("\n");
 }
 
+// Busca por um valor em um conjunto e retorna verdeira ou falso (função auxiliar)
 int busca_valor(int n, int conjunto[], int valor) {
     for (int i = 0; i < n; i++) {
         if (conjunto[i] == valor) {
@@ -194,6 +199,7 @@ int busca_valor(int n, int conjunto[], int valor) {
     return 0;
 }
 
+// Função que busca um valor específico e retorna ao usuário em que conjuntos esse valor aparece
 void busca_por_valor(int m, int n, int matriz[m][n], int valor) {
     pausa();
     int encontrou = 0, i, j;
@@ -239,51 +245,4 @@ void pausa() {
         sleep_ms(500);
     }
     limpa_tela();
-}
-
-void ordenar_conjuntos(int m, int n, int matriz[m][n]) {
-    pausa();
-    int i, j, k;
-
-    // ordena os elementos dentro de cada conjunto (ordem crescente)
-    for (i = 0; i < m; i++) {
-        int tamanho = 0;
-        for (j = 0; j < n; j++) {
-            if (matriz[i][j] == 0) break;
-            tamanho++;
-        }
-
-        for (j = 0; j < tamanho - 1; j++) {
-            for (k = 0; k < tamanho - j - 1; k++) {
-                if (matriz[i][k] > matriz[i][k + 1]) {
-                    int aux = matriz[i][k];
-                    matriz[i][k] = matriz[i][k + 1];
-                    matriz[i][k + 1] = aux;
-                }
-            }
-        }
-    }
-
-    // ordena os conjuntos inteiros pelo tamanho (menor para maior)
-    for (i = 0; i < m - 1; i++) {
-        for (j = 0; j < m - i - 1; j++) {
-            int tamA = 0, tamB = 0;
-
-            // conta quantos elementos cada conjunto possui
-            for (k = 0; k < n; k++) {
-                if (matriz[j][k] != 0) tamA++;
-                if (matriz[j + 1][k] != 0) tamB++;
-            }
-
-            // se o conjunto atual for maior que o próximo, troca as linhas
-            if (tamA > tamB) {
-                int tempLinha[n];
-                for (k = 0; k < n; k++) tempLinha[k] = matriz[j][k];
-                for (k = 0; k < n; k++) matriz[j][k] = matriz[j + 1][k];
-                for (k = 0; k < n; k++) matriz[j + 1][k] = tempLinha[k];
-            }
-        }
-    }
-
-    printf("todos os conjuntos foram ordenados com sucesso!\n\n");
 }
