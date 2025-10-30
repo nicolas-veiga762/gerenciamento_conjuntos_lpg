@@ -48,7 +48,7 @@ int main (void) {
             printf("Digite o indice do conjunto que deseja remover: ");
             scanf("%i", &indice);
             limpa_tela();
-            remover_conjunto(m, n, matriz, contador_conjuntos, indice);
+            remover_conjunto(m, n, matriz, &contador_conjuntos, indice);
             break;
         case 4:
             printf("Digite o indice do primeiro conjunto: ");
