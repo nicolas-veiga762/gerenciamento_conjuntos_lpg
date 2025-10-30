@@ -1,3 +1,9 @@
+/*
+Trabalho 1 de Linguagens de programação - Gerenciamento de conjuntos.
+
+Alunos: Isabela Zimmermann Melleis e Nicolas Oliveira Veiga <3
+*/
+
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
