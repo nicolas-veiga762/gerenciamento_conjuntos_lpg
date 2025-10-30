@@ -18,11 +18,16 @@ void mostrar_conjunto(int m , int n, int matriz[m][n], int indice);
 
 void mostrar_todos_conjuntos(int m, int n, int matriz[m][n], int contador_conjuntos);
 
-
 int busca_valor(int n, int conjunto[], int valor);
-void remover_conjunto(int m, int n, int matriz[m][n], int indice);
+
+int remover_conjunto(int m, int n, int matriz[m][n], int contador_conjuntos, int indice);
+
 void busca_por_valor(int m, int n, int matriz[m][n], int valor);
+
 void limpa_tela();
+
 void pausa();
+
+void ordenar_conjuntos(int m, int n, int matriz[m][n]);
 
 #endif

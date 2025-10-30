@@ -8,7 +8,7 @@ Alunos: Nicolas Oliveira Veiga e isabela Zimmermann Melleis
 
 2. cria_conjuntos(Int matriz[m][n], int contador): Cria um novo conjunto (nova linha vazia) e retorna o novo contador   🟢 Fácil. (✓)
 
-3. busca_valor(int conjunto[N], int valor): Retorna 1 se o valor existir, 0 se não existir   🟢 Fácil. 
+3. busca_valor(int conjunto[N], int valor): Retorna 1 se o valor existir, 0 se não existir   🟢 Fácil. (✓)
 
 4. inserir_valores(int matriz[M][N], int indice): Insere vários valores num conjunto até digitar 0 ou encher N 🟡 Médio. (✓)
 
@@ -22,7 +22,7 @@ Alunos: Nicolas Oliveira Veiga e isabela Zimmermann Melleis
 
 9. mostrar_todos(int matriz[M][N], int contador): Exibe todos os conjuntos existentes   🟢 Fácil. (✓)
 
-10. buscaPorValor(int matriz[M][N], int contador, int valor): Mostra quais conjuntos contêm o valor 🟡 Médio. 
+10. buscaPorValor(int matriz[M][N], int contador, int valor): Mostra quais conjuntos contêm o valor 🟡 Médio. (✓)
 
  --- Opcionais para deixar o trabalho mais bonito e bem estruturado: 
 
@@ -32,4 +32,4 @@ Alunos: Nicolas Oliveira Veiga e isabela Zimmermann Melleis
 
 3. pausa(): Faz um "..." parecendo que está carregando   🟢 Fácil. (✓)
 
-4. ordenarConjunto(int conjunto[N]): Ordena os valores (ex: bubble sort) 🟡 Médio.
+4. ordenarConjunto(int conjunto[N]): Ordena os valores (ex: bubble sort) 🟡 Médio. (✓)

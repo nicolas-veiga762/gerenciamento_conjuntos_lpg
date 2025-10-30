@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 int main (void) {
-    int m, n, opcao, indice, indice2;
+    int m, n, opcao, indice, indice2, valor;
     printf("Digite o numero de linhas da matriz: ");
     scanf("%i", &m);
     printf("Digite o numero de colunas da matriz: ");
@@ -42,6 +42,12 @@ int main (void) {
             } else {
                 printf("O indice digitado nao corresponde a nenhum conjunto existente.\n\n");
             }
+            break;
+        case 3:
+            printf("Digite o indice do conjunto que deseja remover: ");
+            scanf("%i", &indice);
+            limpa_tela();
+            remover_conjunto(m, n, matriz, contador_conjuntos, indice);
             break;
         case 4:
             printf("Digite o indice do primeiro conjunto: ");
@@ -81,6 +87,11 @@ int main (void) {
             break;
         case 7:
             mostrar_todos_conjuntos(m, n, matriz, contador_conjuntos);
+            break;
+        case 8:
+            printf("Digite o valor que deseja buscar nos conjuntos: ");
+            scanf("%i", &valor);
+            busca_por_valor(m, n, matriz, valor);
             break;
         }
     } while (opcao != 9);
