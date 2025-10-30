@@ -252,7 +252,7 @@ void ordenar_conjuntos(int m, int n, int matriz[m][n]) {
     pausa();
     int i, j, k;
 
-    // ordena cada conjunto individualmente (bubble sort interno)
+    // ordena os elementos dentro de cada conjunto (ordem crescente)
     for (i = 0; i < m; i++) {
         int tamanho = 0;
         for (j = 0; j < n; j++) {
@@ -271,31 +271,26 @@ void ordenar_conjuntos(int m, int n, int matriz[m][n]) {
         }
     }
 
-    // ordena os conjuntos por tamanho (usando ponteiros)
+    // ordena os conjuntos inteiros pelo tamanho (menor para maior)
     for (i = 0; i < m - 1; i++) {
         for (j = 0; j < m - i - 1; j++) {
-            int *conjuntoA = matriz[j];
-            int *conjuntoB = matriz[j + 1];
-
             int tamA = 0, tamB = 0;
 
-            // conta elementos válidos
+            // conta quantos elementos cada conjunto possui
             for (k = 0; k < n; k++) {
-                if (conjuntoA[k] != 0) tamA++;
-                if (conjuntoB[k] != 0) tamB++;
+                if (matriz[j][k] != 0) tamA++;
+                if (matriz[j + 1][k] != 0) tamB++;
             }
 
-            // se o conjunto A for maior que o B, troca eles
+            // se o conjunto atual for maior que o próximo, troca as linhas
             if (tamA > tamB) {
-                int temp;
-                for (k = 0; k < n; k++) {
-                    temp = conjuntoA[k];
-                    conjuntoA[k] = conjuntoB[k];
-                    conjuntoB[k] = temp;
-                }
+                int tempLinha[n];
+                for (k = 0; k < n; k++) tempLinha[k] = matriz[j][k];
+                for (k = 0; k < n; k++) matriz[j][k] = matriz[j + 1][k];
+                for (k = 0; k < n; k++) matriz[j + 1][k] = tempLinha[k];
             }
         }
     }
 
-    printf("Todos os conjuntos foram ordenados com sucesso!\n\n");
+    printf("todos os conjuntos foram ordenados com sucesso!\n\n");
 }
