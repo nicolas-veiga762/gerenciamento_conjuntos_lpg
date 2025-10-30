@@ -249,23 +249,42 @@ void pausa() {
 }
 
 void ordenar_conjuntos(int m, int n, int matriz[m][n]) {
-    pausa(); 
+    pausa();
     int i, j, k, aux;
 
-    for (i = 0; i < m; i++) { 
+    /* 1) Ordena elementos dentro de cada conjunto (crescente) */
+    for (i = 0; i < m; i++) {
         int tamanho = 0;
         for (j = 0; j < n; j++) {
             if (matriz[i][j] == 0) break;
             tamanho++;
         }
-
-        // ordenar o conjunto com bubble sort
         for (j = 0; j < tamanho - 1; j++) {
             for (k = 0; k < tamanho - j - 1; k++) {
                 if (matriz[i][k] > matriz[i][k + 1]) {
                     aux = matriz[i][k];
                     matriz[i][k] = matriz[i][k + 1];
                     matriz[i][k + 1] = aux;
+                }
+            }
+        }
+    }
+
+    for (i = 0; i < m - 1; i++) {
+        for (j = 0; j < m - i - 1; j++) {
+            /* calcula tamanho da linha j e da linha j+1 */
+            int size_j = 0, size_j1 = 0;
+            for (k = 0; k < n; k++) {
+                if (matriz[j][k] != 0) size_j++;
+                if (matriz[j + 1][k] != 0) size_j1++;
+            }
+            /* se a linha j tem mais elementos que a j+1, troca-as */
+            if (size_j > size_j1) {
+                int temp;
+                for (k = 0; k < n; k++) {
+                    temp = matriz[j][k];
+                    matriz[j][k] = matriz[j + 1][k];
+                    matriz[j + 1][k] = temp;
                 }
             }
         }
