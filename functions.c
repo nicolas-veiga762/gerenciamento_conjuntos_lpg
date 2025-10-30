@@ -65,6 +65,7 @@ void inserir_valores(int m , int n, int matriz[m][n], int indice, int contador_c
 int remover_conjunto(int m, int n, int matriz[m][n], int contador_conjuntos, int indice) {
     pausa();
 
+    // Verifica se o índice é válido
     if (indice < 0 || indice >= contador_conjuntos) {
         printf("Índice inválido!\n");
         return contador_conjuntos;
@@ -82,13 +83,38 @@ int remover_conjunto(int m, int n, int matriz[m][n], int contador_conjuntos, int
         matriz[contador_conjuntos - 1][j] = 0;
     }
 
-    contador_conjuntos--; 
+    // Atualiza o contador (um conjunto a menos)
+    contador_conjuntos--;
+
+    // elimina qualquer conjunto vazio que tenha sobrado no início
+    int nova_pos = 0;
+    for (int i = 0; i < contador_conjuntos; i++) {
+        int vazio = 1;
+        for (int j = 0; j < n; j++) {
+            if (matriz[i][j] != 0) {
+                vazio = 0;
+                break;
+            }
+        }
+        if (!vazio) {
+            if (i != nova_pos) {
+                for (int j = 0; j < n; j++) {
+                    matriz[nova_pos][j] = matriz[i][j];
+                    matriz[i][j] = 0;
+                }
+            }
+            nova_pos++;
+        }
+    }
+
+    contador_conjuntos = nova_pos; // atualiza o contador final
 
     limpa_tela();
     printf("Conjunto %d removido com sucesso!\n\n", indice);
 
     return contador_conjuntos;
 }
+
 
 void uniao_conjuntos(int m, int n, int matriz[m][n], int indice, int indice2, int contador_conjuntos) {
     int i, j, k = 0, valor, uniao[n+n], novo_indice;
