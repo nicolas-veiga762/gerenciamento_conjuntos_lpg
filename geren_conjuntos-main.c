@@ -48,7 +48,12 @@ int main (void) {
             printf("Digite o indice do conjunto que deseja remover: ");
             scanf("%i", &indice);
             limpa_tela();
-            remover_conjunto(m, n, matriz, &contador_conjuntos, indice);
+            if(verifica_indice(indice, contador_conjuntos)) {
+                contador_conjuntos--;
+                remover_conjunto(m, n, matriz, contador_conjuntos, indice);
+            } else {
+                printf("O indice digitado nao corresponde a nenhum conjunto existente.\n\n");
+            }
             break;
         case 4:
             printf("Digite o indice do primeiro conjunto: ");
@@ -87,11 +92,16 @@ int main (void) {
             }
             break;
         case 7:
-            mostrar_todos_conjuntos(m, n, matriz, contador_conjuntos);
+            if(contador_conjuntos == 0) {
+                printf("Ainda nao foi criado nenhum conjunto.\nCrie um conjunto primeiro para depois poder visualiza-lo.\n\n");
+            } else {
+                mostrar_todos_conjuntos(m, n, matriz, contador_conjuntos);
+            }
             break;
         case 8:
             printf("Digite o valor que deseja buscar nos conjuntos: ");
             scanf("%i", &valor);
+            limpa_tela();
             busca_por_valor(m, n, matriz, valor);
             break;
         case 9:

@@ -2,8 +2,6 @@
 #include "functions.h"
 #include <stdlib.h>
 
-// funÃ§Ãµes principais
-
 void inicializa_matriz(int m, int n, int matriz[m][n]) {
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {
@@ -62,32 +60,24 @@ void inserir_valores(int m , int n, int matriz[m][n], int indice, int contador_c
     contador_conjuntos++;
 }
 
-void remover_conjunto(int m, int n, int matriz[m][n], int *contador_conjuntos, int indice) {
-    if (indice < 0 || indice >= *contador_conjuntos) {
-        printf("Índice inválido!\n");
-        return;
-    }
-
+void remover_conjunto(int m, int n, int matriz[m][n], int contador_conjuntos, int indice) {
+    int i, j;
     // Remove o conjunto deslocando todos os de baixo para cima
-    for (int i = indice; i < *contador_conjuntos - 1; i++) {
+    for (i = indice; i < contador_conjuntos; i++) {
         for (int j = 0; j < n; j++) {
             matriz[i][j] = matriz[i + 1][j];
         }
     }
 
     // Zera o último conjunto (que ficou duplicado após o deslocamento)
-    for (int j = 0; j < n; j++) {
-        matriz[*contador_conjuntos - 1][j] = 0;
+    for (j = 0; j < n; j++) {
+        matriz[contador_conjuntos][j] = 0;
     }
-
-    // Atualiza o contador
-    (*contador_conjuntos)--;
 
     pausa();
     limpa_tela();
     printf("Conjunto %d removido com sucesso!\n\n", indice);
 }
-
 
 void uniao_conjuntos(int m, int n, int matriz[m][n], int indice, int indice2, int contador_conjuntos) {
     int i, j, k = 0, valor, uniao[n+n], novo_indice;
@@ -103,16 +93,19 @@ void uniao_conjuntos(int m, int n, int matriz[m][n], int indice, int indice2, in
             break;
         }
         if(!busca_valor(n+n, uniao, valor)) {
-            if (k >= n) {
+            if (k < n) {
+                uniao[k] = valor;
+                k++;
+            } else {
                 pausa();
                 printf("Nao e possivel criar o conjunto uniao pois a uniao ultrapassa o tamanho limite de conjuntos.\n");
+                break;
             }
-            uniao[k] = valor;
-            k++;
+            
         }
     }
     novo_indice = contador_conjuntos;
-    for (int i = 0; i < n; i++) {
+    for (i = 0; i < n; i++) {
         if (i < k) {
             matriz[novo_indice][i] = uniao[i];
         }
@@ -151,8 +144,6 @@ void interseccao_conjuntos(int m, int n, int matriz[m][n], int indice, int indic
     }
     pausa();
 }
-
-
 
 void mostrar_conjunto(int m , int n, int matriz[m][n], int indice) {
     pausa();
@@ -205,22 +196,24 @@ int busca_valor(int n, int conjunto[], int valor) {
 
 void busca_por_valor(int m, int n, int matriz[m][n], int valor) {
     pausa();
-    int encontrou = 0;
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            if (matriz[i][j] == valor) {
-                printf("O conjunto %i possui o elemento %i\n", i, valor);
-                encontrou = 1;
-                break;
+    int encontrou = 0, i, j;
+    if(valor == 0) {
+        encontrou = 0;
+    } else {
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < n; j++) {
+                if (matriz[i][j] == valor) {
+                    printf("O conjunto %i possui o elemento %i\n\n.", i, valor);
+                    encontrou = 1;
+                    break;
+                }
             }
         }
     }
     if (!encontrou) {
-        printf("Nenhum conjunto possui o valor %i.\n", valor);
+        printf("Nenhum conjunto possui o valor %i.\n\n", valor);
     }
 }
-
-// funções opcionais
 
 void limpa_tela() {
     #ifdef _WIN32

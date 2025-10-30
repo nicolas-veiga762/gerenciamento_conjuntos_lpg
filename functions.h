@@ -20,7 +20,7 @@ void mostrar_todos_conjuntos(int m, int n, int matriz[m][n], int contador_conjun
 
 int busca_valor(int n, int conjunto[], int valor);
 
-void remover_conjunto(int m, int n, int matriz[m][n], int *contador_conjuntos, int indice);
+void remover_conjunto(int m, int n, int matriz[m][n], int contador_conjuntos, int indice);
 
 void busca_por_valor(int m, int n, int matriz[m][n], int valor);
 
