@@ -22,6 +22,7 @@ int verifica_indice(int indice, int contador_conjuntos) {
 
 int criar_conjunto_vazio(int contador_conjuntos, int m) {
     if(contador_conjuntos < m) {
+        pausa();
         contador_conjuntos++;
     } else {
         printf("O tamanho maximo da matriz foi atingido, nao e possivel criar mais conjuntos.\nCaso queira criar um novo conjunto, e necessario remover algum outro para abrir espaco.\n\n");
@@ -179,7 +180,7 @@ void busca_por_valor(int m, int n, int matriz[m][n], int valor) {
     }
 }
 
-// funÃ§Ãµes opcionais
+// funções opcionais
 
 void limpa_tela() {
     #ifdef _WIN32
