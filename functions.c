@@ -25,7 +25,6 @@ int criar_conjunto_vazio(int contador_conjuntos, int m) {
         pausa();
         contador_conjuntos++;
     } else {
-        pausa();
         printf("O tamanho maximo da matriz foi atingido, nao e possivel criar mais conjuntos.\nCaso queira criar um novo conjunto, e necessario remover algum outro para abrir espaco.\n\n");
     }
     return contador_conjuntos;
@@ -64,15 +63,11 @@ void inserir_valores(int m , int n, int matriz[m][n], int indice, int contador_c
 }
 
 int remover_conjunto(int m, int n, int matriz[m][n], int contador_conjuntos, int indice) {
-    // Verifica se o índice é válido
-    if (indice < 0 || indice >= contador_conjuntos) {
-        printf("Indice invalido!\n");
-        return contador_conjuntos;
-    }
+    pausa();
 
-    // Zera a linha (conjunto) escolhida
-    for (int j = 0; j < n; j++) {
-        matriz[indice][j] = 0;
+    if (indice < 0 || indice >= contador_conjuntos) {
+        printf("Índice inválido!\n");
+        return contador_conjuntos;
     }
 
     // Move os conjuntos abaixo uma linha "para cima"
@@ -82,14 +77,13 @@ int remover_conjunto(int m, int n, int matriz[m][n], int contador_conjuntos, int
         }
     }
 
-    // Zera a última linha (pois ficou duplicada)
+    // Zera o último conjunto (pois ficou duplicado)
     for (int j = 0; j < n; j++) {
         matriz[contador_conjuntos - 1][j] = 0;
     }
 
-    contador_conjuntos--;
+    contador_conjuntos--; 
 
-    pausa();
     limpa_tela();
     printf("Conjunto %d removido com sucesso!\n\n", indice);
 
@@ -216,7 +210,7 @@ void busca_por_valor(int m, int n, int matriz[m][n], int valor) {
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {
             if (matriz[i][j] == valor) {
-                printf("O conjunto %i possui o elemento %i", i, valor);
+                printf("O conjunto %i possui o elemento %i\n", i, valor);
                 encontrou = 1;
                 break;
             }

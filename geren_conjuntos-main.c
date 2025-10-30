@@ -24,7 +24,8 @@ int main (void) {
         printf("6 - Mostrar um conjunto.\n");
         printf("7 - Mostrar todos os conjuntos.\n");
         printf("8 - Fazer busca por um valor.\n");
-        printf("9 - Sair do programa.\n\n");
+        printf("9 - Ordenar conjuntos.\n");
+        printf("10 - Sair do programa.\n\n");
         printf("Escolha uma opcao: ");
         scanf("%i", &opcao);
         limpa_tela();
@@ -93,6 +94,8 @@ int main (void) {
             scanf("%i", &valor);
             busca_por_valor(m, n, matriz, valor);
             break;
+        case 9:
+            ordenar_conjuntos(m, n, matriz);
         }
-    } while (opcao != 9);
+    } while (opcao != 10);
 }
