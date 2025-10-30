@@ -63,52 +63,30 @@ void inserir_valores(int m , int n, int matriz[m][n], int indice, int contador_c
 }
 
 void remover_conjunto(int m, int n, int matriz[m][n], int *contador_conjuntos, int indice) {
-    pausa();
-
     if (indice < 0 || indice >= *contador_conjuntos) {
         printf("Índice inválido!\n");
         return;
     }
 
-    // Move os conjuntos abaixo uma linha "para cima"
+    // Remove o conjunto deslocando todos os de baixo para cima
     for (int i = indice; i < *contador_conjuntos - 1; i++) {
         for (int j = 0; j < n; j++) {
             matriz[i][j] = matriz[i + 1][j];
         }
     }
 
-    // Zera a última linha (pois ficou duplicada)
+    // Zera o último conjunto (que ficou duplicado após o deslocamento)
     for (int j = 0; j < n; j++) {
         matriz[*contador_conjuntos - 1][j] = 0;
     }
 
-    // Atualiza o contador (um conjunto a menos)
+    // Atualiza o contador
     (*contador_conjuntos)--;
-
-    // Opcional: compacta qualquer conjunto totalmente vazio no início (garante que
-    // não haverá conjuntos vazios no meio). Se preferir não compactar, remova esse bloco.
-    int nova_pos = 0;
-    for (int i = 0; i < *contador_conjuntos; i++) {
-        int vazio = 1;
-        for (int j = 0; j < n; j++) {
-            if (matriz[i][j] != 0) { vazio = 0; break; }
-        }
-        if (!vazio) {
-            if (i != nova_pos) {
-                for (int j = 0; j < n; j++) {
-                    matriz[nova_pos][j] = matriz[i][j];
-                    matriz[i][j] = 0;
-                }
-            }
-            nova_pos++;
-        }
-    }
-    // nova_pos é o novo número real de conjuntos não-vazios
-    *contador_conjuntos = nova_pos;
 
     limpa_tela();
     printf("Conjunto %d removido com sucesso!\n\n", indice);
 }
+
 
 void uniao_conjuntos(int m, int n, int matriz[m][n], int indice, int indice2, int contador_conjuntos) {
     int i, j, k = 0, valor, uniao[n+n], novo_indice;
